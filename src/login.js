@@ -15,15 +15,13 @@ export default class Login extends React.Component {
     submit() {
         console.log(this.first);
         axios
-            .post("/register", {
-                first: this.first,
-                last: this.last,
+            .post("/login", {
                 email: this.email,
-                pass: this.pass
+                password: this.pass
             })
             .then(({ data }) => {
                 if (data.success) {
-                    console.log("YOU REGISTERED!!");
+                    console.log("YOU LOGGED IN!!");
                     location.replace("/");
                 } else {
                     this.setState({
@@ -46,11 +44,7 @@ export default class Login extends React.Component {
                     placeholder="password"
                     onChange={this.userEntry}
                 />
-                <button onClick={this.submit}>Click</button>
-
-                <h3>
-                    Already a member? <a href=""> Log in!</a>
-                </h3>
+                <button onClick={this.submit}>Log in</button>
             </div>
         );
     }

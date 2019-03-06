@@ -38,6 +38,22 @@ function hashPassword(plainTextPassword) {
     });
 }
 
+function checkPassword(textEnteredInLoginForm, hashedPasswordFromDatabase) {
+    return new Promise(function(resolve, reject) {
+        bcrypt.compare(
+            textEnteredInLoginForm,
+            hashedPasswordFromDatabase,
+            function(err, doesMatch) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(doesMatch);
+                }
+            }
+        );
+    });
+}
+
 if (process.env.NODE_ENV != "production") {
     app.use(
         "/bundle.js",
@@ -80,6 +96,34 @@ app.post("/register", function(req, res) {
                 .catch(err => console.log("error:", err));
         })
         .catch(err => console.log("error:", err));
+});
+
+app.post("/login", (req, res) => {
+    if (req.body.email == `` || req.body.password == ``) {
+        console.log("all fields must be filled");
+    } else {
+        console.log(req.body.email);
+        db.fetchUser(req.body.email)
+            .then(function(data) {
+                if (data.rows[0] == undefined) {
+                    console.log("email doesnt exist");
+                }
+                console.log("response:", data.rows[0]);
+                checkPassword(req.body.password, data.rows[0].password)
+                    .then(function(val) {
+                        console.log("response2:", val);
+                        if (val == true) {
+                            req.session.userId = data.rows[0].email;
+                            console.log("all good");
+                            res.json({ success: true });
+                        } else {
+                            console.log("password doesnt match");
+                        }
+                    })
+                    .catch(err => console.log("error1", err));
+            })
+            .catch(err => console.log("error2", err));
+    }
 });
 
 app.listen(8080, function() {

@@ -8,7 +8,12 @@ export default function Welcome() {
         <div>
             <div>Welcome!</div>
             <img className="welcome" src="/assets/agora200.png" />
-            <Registration />
+            <HashRouter>
+                <div>
+                    <Route exact path="/" component={Registration} />
+                    <Route path="/login" component={Login} />
+                </div>
+            </HashRouter>
         </div>
     );
 }
