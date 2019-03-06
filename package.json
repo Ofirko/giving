@@ -53,7 +53,9 @@
         "webpack-dev-middleware": "^1.8.4"
     },
     "jest": {
-        "setupFiles": [ "./jest.js" ]
+        "setupFiles": [
+            "./jest.js"
+        ]
     },
     "keywords": [],
     "author": "",
