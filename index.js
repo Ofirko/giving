@@ -1,14 +1,12 @@
 const express = require("express");
 const app = express();
 const compression = require("compression");
-// const db = require("./db");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
-// const csurf = require("csurf");
-// var bcrypt = require("bcryptjs");
 const secrets = require("./secrets");
 const db = require("./db");
 var bcrypt = require("bcryptjs");
+const csurf = require("csurf");
 
 app.use(compression());
 app.use(express.static("./public"));
@@ -21,7 +19,20 @@ app.use(
     })
 );
 
+app.use(csurf());
+
+app.use(function(req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
+
+app.use(function(req, res, next) {
+    console.log(req.session);
+    next();
+});
+
 //BCRYPT
+
 function hashPassword(plainTextPassword) {
     return new Promise(function(resolve, reject) {
         bcrypt.genSalt(function(err, salt) {
@@ -72,6 +83,19 @@ app.get("/welcome", function(req, res) {
         res.sendFile(__dirname + "/index.html");
     }
 });
+
+app.get("/user", function(req, res) {
+    console.log("get user worked");
+    db.fetchUser(req.session.userId)
+        .then(data => {
+            console.log("fetched user:", data);
+            res.json(data.rows[0]);
+        })
+        .catch(() => {
+            console.log("fetching doesnt work");
+        });
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

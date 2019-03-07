@@ -24,6 +24,7 @@ export default class Registration extends React.Component {
                 pass: this.pass
             })
             .then(({ data }) => {
+                console.log("register returns:", data);
                 if (data.success) {
                     console.log("YOU REGISTERED!!");
                     location.replace("/");
@@ -56,10 +57,11 @@ export default class Registration extends React.Component {
                 <input
                     name="pass"
                     placeholder="password"
+                    type="password"
+                    autoComplete="off"
                     onChange={this.userEntry}
                 />
                 <button onClick={this.submit}>Click</button>
-
                 <h3>
                     Already a member? <Link to="/login">Log in!</Link>
                 </h3>
