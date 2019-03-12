@@ -18,3 +18,10 @@ module.exports.addUser = function addUser(first, last, email, pass) {
 module.exports.fetchUser = function fetchUser(email) {
     return db.query("SELECT * FROM users WHERE email = $1", [email]);
 };
+
+module.exports.uploadProfPic = function uploadProfPic(url, email) {
+    return db.query(
+        "UPDATE users SET picUrl = ($1) WHERE email = ($2) RETURNING *",
+        [url, email]
+    );
+};

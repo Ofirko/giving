@@ -7,6 +7,10 @@ const secrets = require("./secrets");
 const db = require("./db");
 var bcrypt = require("bcryptjs");
 const csurf = require("csurf");
+var multer = require("multer");
+var uidSafe = require("uid-safe");
+var path = require("path");
+const s3 = require("./s3");
 
 app.use(compression());
 app.use(express.static("./public"));
@@ -148,6 +152,38 @@ app.post("/login", (req, res) => {
             })
             .catch(err => console.log("error2", err));
     }
+});
+var diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+var uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("upload invoked");
+    console.log("req", req.body, req.session);
+    let picurl = secrets.s3Url + req.file.filename;
+    console.log(picurl);
+    db.uploadProfPic(picurl, req.session.userId)
+        .then(data => {
+            console.log("data i get back from the promise", data.rows);
+            res.json(data.rows);
+        })
+        .catch(err => {
+            console.log("db error", err);
+        });
 });
 
 app.listen(8080, function() {

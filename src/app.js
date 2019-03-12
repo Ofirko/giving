@@ -40,6 +40,7 @@ export default class App extends React.Component {
             });
     }
     render() {
+        console.log("state:", this.state);
         if (!this.state.id) {
             return (
                 <div>
@@ -50,15 +51,20 @@ export default class App extends React.Component {
         }
         return (
             <div>
-                <Logo />
-                <ProfilePic
-                    image={this.state.image}
-                    first={this.state.first}
-                    last={this.state.last}
-                    onClick={this.showUploader}
-                />
+                <div id="header">
+                    <Logo />
+                    <ProfilePic
+                        image={this.state.picurl}
+                        first={this.state.first}
+                        last={this.state.last}
+                        onClick={this.showUploader}
+                    />
+                </div>
                 {this.state.uploaderVisible && (
-                    <Uploader onClick={this.hideUploader} />
+                    <Uploader
+                        onClick={this.hideUploader}
+                        setImage={this.setImage}
+                    />
                 )}
             </div>
         );

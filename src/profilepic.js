@@ -8,7 +8,12 @@ export default function ProfilePic({
 }) {
     return (
         <div>
-            <img src={image} alt="${first} ${last}" onClick={onClick} />
+            <img
+                id="profpic"
+                src={image}
+                alt="${first} ${last}"
+                onClick={onClick}
+            />
             <h1>here</h1>
         </div>
     );
