@@ -24,7 +24,7 @@ export default class App extends React.Component {
     }
 
     setImage(image) {
-        this.setState({ image, uploaderVisible: false });
+        this.setState({ picurl: image, uploaderVisible: false });
     }
 
     componentDidMount() {
