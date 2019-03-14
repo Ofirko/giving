@@ -9,13 +9,12 @@ export default class BioEditor extends React.Component {
         // this.handleFileChange = this.handleFileChange.bind(this);
         // this.uploadFile = this.uploadFile.bind(this);
         // this.onClick = this.onClick.bind(this);
-        if (props.bio) {
-            this.bio = props.bio;
-        }
+
         this.state = {
             addBtnVis: !props.bio ? true : undefined,
             editBtnVis: props.bio ? true : undefined,
-            editBoxVis: false
+            editBoxVis: false,
+            bio: props.bio ? props.bio : undefined
         };
         this.bioScreen = this.bioScreen.bind(this);
         this.bioEntry = this.bioEntry.bind(this);
@@ -30,18 +29,28 @@ export default class BioEditor extends React.Component {
         });
     }
     bioEntry(e) {
+        console.log(this.state);
         console.log(e.target.value);
-        this.bio = e.target.value;
+        this.setState({
+            bio: e.target.value
+        });
     }
 
     sendBio() {
         axios
             .post("/postBio", {
-                bio: this.bio
+                bio: this.state.bio
             })
             .then(({ data }) => {
                 console.log("bio updated");
                 console.log(data);
+                console.log("bio:", this.state.bio);
+                this.setState({
+                    addBtnVis: !this.props.bio ? true : undefined,
+                    editBtnVis: this.props.bio ? true : undefined,
+                    editBoxVis: false,
+                    bio: this.state.bio ? this.state.bio : undefined
+                });
             });
     }
 
@@ -68,7 +77,7 @@ export default class BioEditor extends React.Component {
             <div>
                 {this.state.editBtnVis && (
                     <div>
-                        <h1> {this.props.bio} </h1>
+                        <h1> {this.state.bio} </h1>
                         <button id="bioedi" onClick={this.bioScreen}>
                             EDIT
                         </button>
@@ -85,7 +94,7 @@ export default class BioEditor extends React.Component {
                         <textarea
                             id="bioput"
                             name="bio"
-                            value={this.bio}
+                            value={this.state.bio}
                             onChange={this.bioEntry}
                         />{" "}
                         <button onClick={this.sendBio}> SAVE </button>
