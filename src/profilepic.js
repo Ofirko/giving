@@ -14,7 +14,6 @@ export default function ProfilePic({
                 alt="${first} ${last}"
                 onClick={onClick}
             />
-            <h1>here</h1>
         </div>
     );
 }

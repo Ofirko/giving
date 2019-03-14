@@ -3,6 +3,7 @@ import axios from "./axios";
 import ProfilePic from "./profilepic";
 import Logo from "./logo";
 import Uploader from "./uploader";
+import Profile from "./profile";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -55,11 +56,18 @@ export default class App extends React.Component {
                     <Logo />
                     <ProfilePic
                         image={this.state.picurl}
-                        first={this.state.first}
-                        last={this.state.last}
+                        first={this.state.firstname}
+                        last={this.state.lastname}
                         onClick={this.showUploader}
                     />
                 </div>
+                <Profile
+                    bio={this.state.bio}
+                    image={this.state.picurl}
+                    first={this.state.firstname}
+                    last={this.state.lastname}
+                    onClick={this.showUploader}
+                />
                 {this.state.uploaderVisible && (
                     <Uploader
                         onClick={this.hideUploader}

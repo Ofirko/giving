@@ -1,3 +1,8 @@
+* {
+    font-family: futura;
+    font-size: 16px;
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -39,5 +44,28 @@
 }
 
 #header {
+    padding-bottom: 70px;
     border-bottom: 1px solid black;
+}
+
+.bigpic #profpic {
+    position: relative;
+    left: 20px;
+    top: 50px;
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+#profname {
+    position: relative;
+    left: 240px;
+    top: -150px;
+    font-size: 32px;
+}
+
+#bioeditor {
+    position: relative;
+    left: 240px;
+    top: -150px;
 }
