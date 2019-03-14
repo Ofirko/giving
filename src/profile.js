@@ -19,10 +19,12 @@ export default function Profile({
                     onClick={onClick}
                 />
             </div>
-            <div id="profname">
-                {first} {last}
+            <div id="deets">
+                <div id="profname">
+                    {first} {last}
+                </div>
+                <BioEditor bio={bio} />
             </div>
-            <BioEditor bio={bio} />
         </div>
     );
 }

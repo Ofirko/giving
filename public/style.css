@@ -58,14 +58,15 @@
 }
 
 #profname {
-    position: relative;
-    left: 240px;
-    top: -150px;
     font-size: 32px;
 }
 
-#bioeditor {
+#deets {
     position: relative;
     left: 240px;
     top: -150px;
+}
+#bioput {
+    width: 200px;
+    height: 80px;
 }

@@ -3,15 +3,48 @@ import axios from "./axios";
 
 export default class BioEditor extends React.Component {
     constructor(props) {
+        console.log(props);
         super(props);
         // this.form = {};
         // this.handleFileChange = this.handleFileChange.bind(this);
         // this.uploadFile = this.uploadFile.bind(this);
         // this.onClick = this.onClick.bind(this);
+        if (props.bio) {
+            this.bio = props.bio;
+        }
+        this.state = {
+            addBtnVis: !props.bio ? true : undefined,
+            editBtnVis: props.bio ? true : undefined,
+            editBoxVis: false
+        };
+        this.bioScreen = this.bioScreen.bind(this);
+        this.bioEntry = this.bioEntry.bind(this);
+        this.sendBio = this.sendBio.bind(this);
     }
     bioScreen() {
         console.log("edit bio");
+        this.setState({
+            addBtnVis: false,
+            editBtnVis: false,
+            editBoxVis: true
+        });
     }
+    bioEntry(e) {
+        console.log(e.target.value);
+        this.bio = e.target.value;
+    }
+
+    sendBio() {
+        axios
+            .post("/postBio", {
+                bio: this.bio
+            })
+            .then(({ data }) => {
+                console.log("bio updated");
+                console.log(data);
+            });
+    }
+
     // uploadFile(e) {
     //     let self = this;
     //     e.preventDefault();
@@ -33,10 +66,31 @@ export default class BioEditor extends React.Component {
     render() {
         return (
             <div>
-                <button id="bioeditor" onClick={this.bioScreen}>
-                    {" "}
-                    Add your bio now!{" "}
-                </button>
+                {this.state.editBtnVis && (
+                    <div>
+                        <h1> {this.props.bio} </h1>
+                        <button id="bioedi" onClick={this.bioScreen}>
+                            EDIT
+                        </button>
+                    </div>
+                )}
+                {this.state.addBtnVis && (
+                    <button id="bioeditor" onClick={this.bioScreen}>
+                        {" "}
+                        Add your bio now!{" "}
+                    </button>
+                )}
+                {this.state.editBoxVis && (
+                    <div>
+                        <textarea
+                            id="bioput"
+                            name="bio"
+                            value={this.bio}
+                            onChange={this.bioEntry}
+                        />{" "}
+                        <button onClick={this.sendBio}> SAVE </button>
+                    </div>
+                )}
             </div>
         );
     }

@@ -25,3 +25,10 @@ module.exports.uploadProfPic = function uploadProfPic(url, email) {
         [url, email]
     );
 };
+
+module.exports.updateBio = function updateBio(bio, email) {
+    return db.query(
+        "UPDATE users SET bio = ($1) WHERE email = ($2) RETURNING *",
+        [bio, email]
+    );
+};

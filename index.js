@@ -153,6 +153,18 @@ app.post("/login", (req, res) => {
             .catch(err => console.log("error2", err));
     }
 });
+
+app.post("/postBio", (req, res) => {
+    db.updateBio(req.body.bio, req.session.userId)
+        .then(data => {
+            console.log("data i get back from the promise", data.rows);
+            res.json(data.rows);
+        })
+        .catch(err => {
+            console.log("db error", err);
+        });
+});
+
 var diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
         callback(null, __dirname + "/uploads");
