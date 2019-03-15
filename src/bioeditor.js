@@ -46,8 +46,8 @@ export default class BioEditor extends React.Component {
                 console.log(data);
                 console.log("bio:", this.state.bio);
                 this.setState({
-                    addBtnVis: !this.props.bio ? true : undefined,
-                    editBtnVis: this.props.bio ? true : undefined,
+                    addBtnVis: undefined,
+                    editBtnVis: true,
                     editBoxVis: false,
                     bio: this.state.bio ? this.state.bio : undefined
                 });

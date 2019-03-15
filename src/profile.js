@@ -13,10 +13,10 @@ export default function Profile({
         <div>
             <div className="bigpic">
                 <ProfilePic
-                    image={image}
                     first={first}
                     last={last}
                     onClick={onClick}
+                    image={image}
                 />
             </div>
             <div id="deets">

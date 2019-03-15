@@ -19,16 +19,20 @@ module.exports.fetchUser = function fetchUser(email) {
     return db.query("SELECT * FROM users WHERE email = $1", [email]);
 };
 
-module.exports.uploadProfPic = function uploadProfPic(url, email) {
+module.exports.fetchUserById = function fetchUserById(id) {
+    return db.query("SELECT * FROM users WHERE id = $1", [id]);
+};
+
+module.exports.uploadProfPic = function uploadProfPic(url, id) {
     return db.query(
-        "UPDATE users SET picUrl = ($1) WHERE email = ($2) RETURNING *",
-        [url, email]
+        "UPDATE users SET picUrl = ($1) WHERE id = ($2) RETURNING *",
+        [url, id]
     );
 };
 
-module.exports.updateBio = function updateBio(bio, email) {
-    return db.query(
-        "UPDATE users SET bio = ($1) WHERE email = ($2) RETURNING *",
-        [bio, email]
-    );
+module.exports.updateBio = function updateBio(bio, id) {
+    return db.query("UPDATE users SET bio = ($1) WHERE id = ($2) RETURNING *", [
+        bio,
+        id
+    ]);
 };

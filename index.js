@@ -89,10 +89,27 @@ app.get("/welcome", function(req, res) {
 });
 
 app.get("/user", function(req, res) {
-    console.log("get user worked");
-    db.fetchUser(req.session.userId)
+    db.fetchUserById(req.session.userId)
         .then(data => {
             console.log("fetched user:", data);
+            res.json(data.rows[0]);
+        })
+        .catch(() => {
+            console.log("fetching doesnt work");
+        });
+});
+
+app.get("/difuser/:id", function(req, res) {
+    let isCurrent = false;
+    let id = req.params.id;
+    if (id == req.session.userId) {
+        isCurrent = true;
+    }
+    db.fetchUserById(id)
+        .then(data => {
+            data.rows[0].isCurrent = isCurrent;
+            console.log(data.rows[0]);
+            console.log("current:", isCurrent);
             res.json(data.rows[0]);
         })
         .catch(() => {
@@ -116,8 +133,8 @@ app.post("/register", function(req, res) {
                 .then(data => {
                     console.log("axios post worked", req.body.first);
                     console.log("data:", data);
-                    console.log("body", req.body.email);
-                    req.session.userId = req.body.email;
+                    console.log("body", data.rows[0].id);
+                    req.session.userId = data.rows[0].id;
                     console.log("cookie:", req.session.userId);
                     res.json({ success: true });
                 })
@@ -141,7 +158,7 @@ app.post("/login", (req, res) => {
                     .then(function(val) {
                         console.log("response2:", val);
                         if (val == true) {
-                            req.session.userId = data.rows[0].email;
+                            req.session.userId = data.rows[0].id;
                             console.log("all good");
                             res.json({ success: true });
                         } else {
