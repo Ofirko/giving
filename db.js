@@ -23,6 +23,16 @@ module.exports.fetchUserById = function fetchUserById(id) {
     return db.query("SELECT * FROM users WHERE id = $1", [id]);
 };
 
+module.exports.fetchFriendshipStatus = function fetchFriendshipStatus(
+    viewed,
+    current
+) {
+    return db.query(
+        "SELECT * FROM friendships WHERE sender IN ($1, $2) AND reciever IN ($1, $2)",
+        [viewed, current]
+    );
+};
+
 module.exports.uploadProfPic = function uploadProfPic(url, id) {
     return db.query(
         "UPDATE users SET picUrl = ($1) WHERE id = ($2) RETURNING *",

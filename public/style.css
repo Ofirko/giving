@@ -70,3 +70,8 @@
     width: 200px;
     height: 80px;
 }
+
+.friends {
+    position: relative;
+    top: 70px;
+}

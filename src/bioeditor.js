@@ -5,11 +5,6 @@ export default class BioEditor extends React.Component {
     constructor(props) {
         console.log(props);
         super(props);
-        // this.form = {};
-        // this.handleFileChange = this.handleFileChange.bind(this);
-        // this.uploadFile = this.uploadFile.bind(this);
-        // this.onClick = this.onClick.bind(this);
-
         this.state = {
             addBtnVis: !props.bio ? true : undefined,
             editBtnVis: props.bio ? true : undefined,
@@ -54,24 +49,6 @@ export default class BioEditor extends React.Component {
             });
     }
 
-    // uploadFile(e) {
-    //     let self = this;
-    //     e.preventDefault();
-    //     console.log("upload file running!");
-    //     var formData = new FormData();
-    //     formData.append("file", this.form.file);
-    //     console.log("formData worked");
-    //     axios
-    //         .post("/upload", formData)
-    //         .then(function(resp) {
-    //             console.log(resp);
-    //             console.log("this is the image:", resp.data[0].picurl);
-    //             self.props.setImage(resp.data[0].picurl);
-    //         })
-    //         .catch(err => {
-    //             console.log("axios error", err);
-    //         });
-    // }
     render() {
         return (
             <div>
@@ -104,12 +81,3 @@ export default class BioEditor extends React.Component {
         );
     }
 }
-// <div id="bg" onClick={this.props.onClick} />
-// <div className="modal">
-//     <h1>Want to change your image? </h1>
-//     <input
-//         type="file"
-//         accept="image/*"
-//         name="file"
-//         onChange={this.handleFileChange}
-//     />

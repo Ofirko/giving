@@ -117,6 +117,22 @@ app.get("/difuser/:id", function(req, res) {
         });
 });
 
+app.get("/friendships/:rec", function(req, res) {
+    let rec = req.params.rec;
+    db.fetchFriendshipStatus(rec, req.session.userId)
+        .then(data => {
+            console.log("there's a friendship", data);
+            if (data.rows[0]) {
+                res.json(data.rows[0]);
+            } else {
+                res.json(false);
+            }
+        })
+        .catch(() => {
+            console.log("fetching doesnt work");
+        });
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -172,6 +188,17 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/postBio", (req, res) => {
+    db.updateBio(req.body.bio, req.session.userId)
+        .then(data => {
+            console.log("data i get back from the promise", data.rows);
+            res.json(data.rows);
+        })
+        .catch(err => {
+            console.log("db error", err);
+        });
+});
+
+app.post("/postFriendship", (req, res) => {
     db.updateBio(req.body.bio, req.session.userId)
         .then(data => {
             console.log("data i get back from the promise", data.rows);
