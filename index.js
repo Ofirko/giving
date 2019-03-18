@@ -11,6 +11,9 @@ var multer = require("multer");
 var uidSafe = require("uid-safe");
 var path = require("path");
 const s3 = require("./s3");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
+// OR "myapp.herokuapp.com:*"
 
 app.use(compression());
 app.use(express.static("./public"));
@@ -199,14 +202,36 @@ app.post("/postBio", (req, res) => {
 });
 
 app.post("/postFriendship", (req, res) => {
-    db.updateBio(req.body.bio, req.session.userId)
-        .then(data => {
-            console.log("data i get back from the promise", data.rows);
-            res.json(data.rows);
-        })
-        .catch(err => {
-            console.log("db error", err);
-        });
+    if (req.body.action == "insert") {
+        db.addFriendship(req.session.userId, req.body.reciever)
+            .then(data => {
+                console.log("data i get back from the promise", data.rows);
+                res.json(data.rows);
+            })
+            .catch(err => {
+                console.log("db error", err);
+            });
+    } else if (req.body.action == "update") {
+        db.updateFriendship(req.session.userId, req.body.reciever)
+            .then(data => {
+                console.log("data i get back from the promise", data.rows);
+                res.json(data.rows);
+            })
+            .catch(err => {
+                console.log("db error", err);
+            });
+    } else if (req.body.action == "delete") {
+        db.deleteFriendship(req.session.userId, req.body.reciever)
+            .then(data => {
+                console.log("data i get back from the promise", data.rows);
+                res.json(data.rows);
+            })
+            .catch(err => {
+                console.log("db error", err);
+            });
+    } else {
+        console.log("Request error");
+    }
 });
 
 var diskStorage = multer.diskStorage({
@@ -242,6 +267,29 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         });
 });
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
 });
+
+// SOCKET IO
+
+// const onlineUsers = {};
+// io.on("connection", socket => {
+//     console.log("socket connected, id:", socket.id);
+//     const { userId } = socket.request.session;
+//     if (!userId) {
+//         return socket.disconnect();
+//     }
+//     onlineUsers[socket.id] = userId;
+//     //send socket the full list of online onlineUsers
+//     db.getUsersByIds(Object.values(onlineUsers))
+//         .then()
+//         .catch();
+//
+//     //part about new user joining
+//     socket.emit("onlineUsers", {});
+//     socket.on("disconnect", () => {
+//         console.log("socket Disconnected, id:", socket.id);
+//         delete onlineUsers[socket.id];
+//     });
+// });

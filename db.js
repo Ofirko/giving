@@ -28,10 +28,14 @@ module.exports.fetchFriendshipStatus = function fetchFriendshipStatus(
     current
 ) {
     return db.query(
-        "SELECT * FROM friendships WHERE sender IN ($1, $2) AND reciever IN ($1, $2)",
+        "SELECT * FROM friendships WHERE sender IN ($1, $2) AND receiver IN ($1, $2)",
         [viewed, current]
     );
 };
+
+// ***************
+//PROFILE EDITING
+// ***************
 
 module.exports.uploadProfPic = function uploadProfPic(url, id) {
     return db.query(
@@ -45,4 +49,29 @@ module.exports.updateBio = function updateBio(bio, id) {
         bio,
         id
     ]);
+};
+
+// ***************
+//FRIENDSHIP EDITING
+// ***************
+
+module.exports.addFriendship = function addFriendship(sender, receiver) {
+    return db.query(
+        "INSERT INTO friendships (sender, receiver) VALUES($1, $2) RETURNING *",
+        [sender, receiver]
+    );
+};
+
+module.exports.updateFriendship = function updateFriendship(sender, receiver) {
+    return db.query(
+        "UPDATE friendships SET accepted = true WHERE sender = ($2) AND receiver = ($1) RETURNING *",
+        [sender, receiver]
+    );
+};
+
+module.exports.deleteFriendship = function deleteFriendship(sender, receiver) {
+    return db.query(
+        "DELETE FROM friendships WHERE sender = ($1) OR  sender = ($2) AND receiver = ($2) OR receiver = ($1)",
+        [sender, receiver]
+    );
 };

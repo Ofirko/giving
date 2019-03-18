@@ -14,6 +14,6 @@ CREATE TABLE users(
 CREATE TABLE friendships(
     id SERIAL PRIMARY KEY,
     sender INT REFERENCES users(id) NOT NULL,
-    reciever INT REFERENCES users(id) NOT NULL,
-    accepted BOOLEAN NOT NULL
+    receiver INT REFERENCES users(id) NOT NULL,
+    accepted BOOLEAN NOT NULL DEFAULT FALSE
 );

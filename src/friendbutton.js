@@ -51,6 +51,25 @@ export default class FriendButton extends React.Component {
                 reciever: this.props.rec
             })
             .then(({ data }) => {
+                if (action == "insert") {
+                    this.setState({
+                        addFriendVis: false,
+                        DelReqVis: true
+                    });
+                } else if (action == "update") {
+                    this.setState({
+                        acceptReqVis: false,
+                        DelFriendVis: true
+                    });
+                } else if (action == "delete") {
+                    this.setState({
+                        addFriendVis: true,
+                        DelReqVis: false,
+                        DelFriendVis: false
+                    });
+                } else {
+                    console.log("ERROR");
+                }
                 // this.setState({});
             });
     }
