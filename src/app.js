@@ -6,6 +6,7 @@ import Logo from "./logo";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import OtherProfile from "./otherprofile";
+import Friends from "./friends";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -31,11 +32,9 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log("mount happens");
         axios
             .get("/user")
             .then(({ data }) => {
-                console.log("back from the axios:", data);
                 this.setState(data);
             })
             .catch(err => {
@@ -43,7 +42,6 @@ export default class App extends React.Component {
             });
     }
     render() {
-        console.log("state:", this.state);
         // if (!this.state.id) {
         //     return (
         //         <div>
@@ -79,6 +77,7 @@ export default class App extends React.Component {
                             )}
                         />
                         <Route path="/user/:id" component={OtherProfile} />
+                        <Route path="/friends" component={Friends} />
                     </div>
                 </BrowserRouter>
                 {this.state.uploaderVisible && (

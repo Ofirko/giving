@@ -10,7 +10,7 @@ export default function ProfilePic({ first, last, onClick, image }) {
             <img
                 id="profpic"
                 src={image}
-                alt={"${first} ${last}"}
+                alt={`${first} ${last}`}
                 onClick={onClick}
             />
         </div>

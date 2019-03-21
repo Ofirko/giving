@@ -3,7 +3,6 @@ import axios from "./axios";
 
 export default class FriendButton extends React.Component {
     constructor(props) {
-        console.log(props);
         super(props);
 
         this.state = {
@@ -14,12 +13,9 @@ export default class FriendButton extends React.Component {
         };
     }
     componentDidMount() {
-        console.log("mount happens");
-        console.log("current id:", this.props.rec);
         axios
             .get("/friendships/" + this.props.rec)
             .then(({ data }) => {
-                console.log("friendship back from the axios:", data);
                 if (data == false) {
                     this.setState({ addFriendVis: true });
                 } else if (data.accepted == true) {
@@ -44,7 +40,6 @@ export default class FriendButton extends React.Component {
     // }
 
     sendReq(action) {
-        console.log(action);
         axios
             .post("/postFriendship", {
                 action: action,

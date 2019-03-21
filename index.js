@@ -94,7 +94,6 @@ app.get("/welcome", function(req, res) {
 app.get("/user", function(req, res) {
     db.fetchUserById(req.session.userId)
         .then(data => {
-            console.log("fetched user:", data);
             res.json(data.rows[0]);
         })
         .catch(() => {
@@ -111,8 +110,6 @@ app.get("/difuser/:id", function(req, res) {
     db.fetchUserById(id)
         .then(data => {
             data.rows[0].isCurrent = isCurrent;
-            console.log(data.rows[0]);
-            console.log("current:", isCurrent);
             res.json(data.rows[0]);
         })
         .catch(() => {
@@ -124,12 +121,21 @@ app.get("/friendships/:rec", function(req, res) {
     let rec = req.params.rec;
     db.fetchFriendshipStatus(rec, req.session.userId)
         .then(data => {
-            console.log("there's a friendship", data);
             if (data.rows[0]) {
                 res.json(data.rows[0]);
             } else {
                 res.json(false);
             }
+        })
+        .catch(() => {
+            console.log("fetching doesnt work");
+        });
+});
+
+app.get("/friendslist", function(req, res) {
+    db.fetchFriendsById(req.session.userId)
+        .then(data => {
+            res.json(data.rows);
         })
         .catch(() => {
             console.log("fetching doesnt work");
@@ -147,14 +153,9 @@ app.get("*", function(req, res) {
 app.post("/register", function(req, res) {
     hashPassword(req.body.pass)
         .then(hashPass => {
-            console.log("hashed: ", hashPass);
             db.addUser(req.body.first, req.body.last, req.body.email, hashPass)
                 .then(data => {
-                    console.log("axios post worked", req.body.first);
-                    console.log("data:", data);
-                    console.log("body", data.rows[0].id);
                     req.session.userId = data.rows[0].id;
-                    console.log("cookie:", req.session.userId);
                     res.json({ success: true });
                 })
                 .catch(err => console.log("error:", err));
@@ -166,19 +167,15 @@ app.post("/login", (req, res) => {
     if (req.body.email == `` || req.body.password == ``) {
         console.log("all fields must be filled");
     } else {
-        console.log(req.body.email);
         db.fetchUser(req.body.email)
             .then(function(data) {
                 if (data.rows[0] == undefined) {
                     console.log("email doesnt exist");
                 }
-                console.log("response:", data.rows[0]);
                 checkPassword(req.body.password, data.rows[0].password)
                     .then(function(val) {
-                        console.log("response2:", val);
                         if (val == true) {
                             req.session.userId = data.rows[0].id;
-                            console.log("all good");
                             res.json({ success: true });
                         } else {
                             console.log("password doesnt match");
@@ -193,7 +190,6 @@ app.post("/login", (req, res) => {
 app.post("/postBio", (req, res) => {
     db.updateBio(req.body.bio, req.session.userId)
         .then(data => {
-            console.log("data i get back from the promise", data.rows);
             res.json(data.rows);
         })
         .catch(err => {
@@ -205,25 +201,24 @@ app.post("/postFriendship", (req, res) => {
     if (req.body.action == "insert") {
         db.addFriendship(req.session.userId, req.body.reciever)
             .then(data => {
-                console.log("data i get back from the promise", data.rows);
                 res.json(data.rows);
             })
             .catch(err => {
                 console.log("db error", err);
             });
     } else if (req.body.action == "update") {
+        console.log("update posted", req.body.reciever);
         db.updateFriendship(req.session.userId, req.body.reciever)
             .then(data => {
-                console.log("data i get back from the promise", data.rows);
                 res.json(data.rows);
             })
             .catch(err => {
                 console.log("db error", err);
             });
     } else if (req.body.action == "delete") {
+        console.log("delete posted", req.body.reciever);
         db.deleteFriendship(req.session.userId, req.body.reciever)
             .then(data => {
-                console.log("data i get back from the promise", data.rows);
                 res.json(data.rows);
             })
             .catch(err => {
@@ -253,13 +248,10 @@ var uploader = multer({
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("upload invoked");
-    console.log("req", req.body, req.session);
     let picurl = secrets.s3Url + req.file.filename;
     console.log(picurl);
     db.uploadProfPic(picurl, req.session.userId)
         .then(data => {
-            console.log("data i get back from the promise", data.rows);
             res.json(data.rows);
         })
         .catch(err => {

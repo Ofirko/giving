@@ -71,7 +71,14 @@ module.exports.updateFriendship = function updateFriendship(sender, receiver) {
 
 module.exports.deleteFriendship = function deleteFriendship(sender, receiver) {
     return db.query(
-        "DELETE FROM friendships WHERE sender = ($1) OR  sender = ($2) AND receiver = ($2) OR receiver = ($1)",
+        "DELETE FROM friendships WHERE sender = ($1) OR  sender = ($2) AND receiver = ($2) OR receiver = ($1) RETURNING *",
         [sender, receiver]
+    );
+};
+
+module.exports.fetchFriendsById = function fetchFriendsById(id) {
+    return db.query(
+        "SELECT users.id, firstname, lastname, picurl, accepted FROM friendships JOIN users ON (accepted = false AND receiver = $1 AND sender = users.id) OR (accepted = true AND receiver = $1 AND sender = users.id) OR (accepted = true AND sender = $1 AND receiver = users.id)",
+        [id]
     );
 };
