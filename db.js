@@ -23,6 +23,10 @@ module.exports.fetchUserById = function fetchUserById(id) {
     return db.query("SELECT * FROM users WHERE id = $1", [id]);
 };
 
+module.exports.fetchUsersByIds = function fetchUsersByIds(ids) {
+    return db.query("SELECT * FROM users WHERE id = ANY($1)", [ids]);
+};
+
 module.exports.fetchFriendshipStatus = function fetchFriendshipStatus(
     viewed,
     current
@@ -81,4 +85,19 @@ module.exports.fetchFriendsById = function fetchFriendsById(id) {
         "SELECT users.id, firstname, lastname, picurl, accepted FROM friendships JOIN users ON (accepted = false AND receiver = $1 AND sender = users.id) OR (accepted = true AND receiver = $1 AND sender = users.id) OR (accepted = true AND sender = $1 AND receiver = users.id)",
         [id]
     );
+};
+
+// ***************
+// CHAT
+// ***************
+
+module.exports.addMessage = function addMessage(sender, message) {
+    return db.query(
+        "INSERT INTO messages (sender, message) VALUES($1, $2) RETURNING *",
+        [sender, message]
+    );
+};
+
+module.exports.fetchMessages = function fetchMessages() {
+    return db.query("SELECT * FROM users ORDER BY id DESC LIMIT 10");
 };

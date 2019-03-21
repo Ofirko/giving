@@ -19,12 +19,14 @@ app.use(compression());
 app.use(express.static("./public"));
 app.use(bodyParser.json());
 
-app.use(
-    cookieSession({
-        secret: secrets.cookieSecret,
-        maxAge: 1000 * 60 * 60 * 24 * 7 * 2
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: secrets.cookieSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 7 * 2
+});
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -142,6 +144,16 @@ app.get("/friendslist", function(req, res) {
         });
 });
 
+app.get("/chats", function(req, res) {
+    db.fetchMessages()
+        .then(data => {
+            res.json(data.rows);
+        })
+        .catch(() => {
+            console.log("fetching doesnt work");
+        });
+});
+
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -229,6 +241,16 @@ app.post("/postFriendship", (req, res) => {
     }
 });
 
+app.post("/postMessage", (req, res) => {
+    db.addMessage(req.session.userId, req.body.message)
+        .then(data => {
+            res.json(data.rows);
+        })
+        .catch(err => {
+            console.log("db error", err);
+        });
+});
+
 var diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
         callback(null, __dirname + "/uploads");
@@ -265,23 +287,26 @@ server.listen(8080, function() {
 
 // SOCKET IO
 
-// const onlineUsers = {};
-// io.on("connection", socket => {
-//     console.log("socket connected, id:", socket.id);
-//     const { userId } = socket.request.session;
-//     if (!userId) {
-//         return socket.disconnect();
-//     }
-//     onlineUsers[socket.id] = userId;
-//     //send socket the full list of online onlineUsers
-//     db.getUsersByIds(Object.values(onlineUsers))
-//         .then()
-//         .catch();
-//
-//     //part about new user joining
-//     socket.emit("onlineUsers", {});
-//     socket.on("disconnect", () => {
-//         console.log("socket Disconnected, id:", socket.id);
-//         delete onlineUsers[socket.id];
-//     });
-// });
+const onlineUsers = {};
+io.on("connection", socket => {
+    console.log("socket connected, id:", socket.id);
+    console.log(socket.request.session);
+    const { userId } = socket.request.session;
+    if (!userId) {
+        return socket.disconnect();
+    }
+    onlineUsers[socket.id] = userId;
+    //send socket the full list of onlineUsers
+    db.fetchUsersByIds(Object.values(onlineUsers))
+        .then(data => {
+            console.log("users online:", data.rows);
+        })
+        .catch();
+
+    //part about new user joining
+    socket.emit("onlineUsers", {});
+    socket.on("disconnect", () => {
+        console.log("socket Disconnected, id:", socket.id);
+        delete onlineUsers[socket.id];
+    });
+});

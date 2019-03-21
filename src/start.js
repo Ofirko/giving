@@ -28,8 +28,3 @@ if (location.pathname == "/welcome") {
 }
 
 ReactDOM.render(elem, document.querySelector("main"));
-
-// "store" is another word for the global Redux state.
-// we don't really do much with the store -- we mostly just need it for Redux to work!
-// but it's good to know that the store has methods on it that we can use to interact with the global state.
-// the only one of those methods we care about is called "dispatch." dispatch is a method that, when invoked, starts the process of adding data to Redux.

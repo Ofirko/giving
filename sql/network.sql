@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS friendships;
+DROP TABLE IF EXISTS messages;
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
@@ -16,4 +17,12 @@ CREATE TABLE friendships(
     sender INT REFERENCES users(id) NOT NULL,
     receiver INT REFERENCES users(id) NOT NULL,
     accepted BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE messages(
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    sender INT REFERENCES users(id) NOT NULL DEFAULT 0,
+    receiver INT REFERENCES users(id),
+    message TEXT NOT NULL
 );
