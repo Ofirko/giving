@@ -23,7 +23,7 @@ class Friends extends React.Component {
                 {!!wannabes.length &&
                     wannabes.map(friend => {
                         return (
-                            <div key={friend.id}>
+                            <div id="friendbox" key={friend.id}>
                                 <img
                                     className="friendpic"
                                     src={
@@ -45,13 +45,13 @@ class Friends extends React.Component {
                             </div>
                         );
                     })}
-                {friends.length && (
+                {!!friends.length && (
                     <h1>These people are currently your friends</h1>
                 )}
-                {friends.length &&
+                {!!friends.length &&
                     friends.map(friend => {
                         return (
-                            <div key={friend.id}>
+                            <div id="friendbox" key={friend.id}>
                                 <img
                                     className="friendpic"
                                     src={

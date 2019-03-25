@@ -99,5 +99,7 @@ module.exports.addMessage = function addMessage(sender, message) {
 };
 
 module.exports.fetchMessages = function fetchMessages() {
-    return db.query("SELECT * FROM users ORDER BY id DESC LIMIT 10");
+    return db.query(
+        "SELECT users.id, firstname, lastname, picurl, message, created_at FROM messages JOIN users ON messages.sender=users.id ORDER BY created_at DESC LIMIT 10"
+    );
 };

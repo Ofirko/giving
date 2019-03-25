@@ -29,5 +29,13 @@ export default function(state = {}, action) {
             })
         };
     }
+    if (action.type === "MESSAGES") {
+        console.log("action:", action);
+        console.log(action.messages);
+        state = {
+            ...state,
+            messages: action.messages
+        };
+    }
     return state;
 }

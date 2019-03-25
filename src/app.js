@@ -79,7 +79,12 @@ export default class App extends React.Component {
                         />
                         <Route path="/user/:id" component={OtherProfile} />
                         <Route path="/friends" component={Friends} />
-                        <Route path="/chat" component={ChatMessages} />
+                        <Route
+                            path="/chat"
+                            render={props => (
+                                <ChatMessages {...props} user={this.state.id} />
+                            )}
+                        />
                     </div>
                 </BrowserRouter>
                 {this.state.uploaderVisible && (

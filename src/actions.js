@@ -35,6 +35,20 @@ export async function acceptFriend(rec) {
     };
 }
 
+export async function chats(data) {
+    console.log("chats on actions:", data);
+    return {
+        type: "MESSAGES",
+        messages: data
+    };
+}
+export async function newMessage(data) {
+    console.log("chats on actions:", data);
+    return {
+        type: "MESSAGES",
+        messages: data
+    };
+}
 // sendReq(action) {
 //     console.log(action);
 //     axios

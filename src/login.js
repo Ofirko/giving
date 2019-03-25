@@ -34,8 +34,9 @@ export default class Login extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="form">
                 {this.state.error && <div className="error"> Oops! </div>}
+                <h1> Login </h1>
                 <input
                     name="email"
                     placeholder="e-mail adress"
@@ -50,7 +51,10 @@ export default class Login extends React.Component {
                 />
                 <button onClick={this.submit}>Log in</button>
                 <h3>
-                    Not registered yet? <Link to="/">Register!</Link>
+                    <Link className="link" to="/">
+                        {" "}
+                        Not signed up yet?
+                    </Link>
                 </h3>
             </div>
         );

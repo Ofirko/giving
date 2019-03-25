@@ -144,16 +144,6 @@ app.get("/friendslist", function(req, res) {
         });
 });
 
-app.get("/chats", function(req, res) {
-    db.fetchMessages()
-        .then(data => {
-            res.json(data.rows);
-        })
-        .catch(() => {
-            console.log("fetching doesnt work");
-        });
-});
-
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -241,15 +231,15 @@ app.post("/postFriendship", (req, res) => {
     }
 });
 
-app.post("/postMessage", (req, res) => {
-    db.addMessage(req.session.userId, req.body.message)
-        .then(data => {
-            res.json(data.rows);
-        })
-        .catch(err => {
-            console.log("db error", err);
-        });
-});
+// app.post("/postMessage", (req, res) => {
+//     db.addMessage(req.session.userId, req.body.message)
+//         .then(data => {
+//             res.json(data.rows);
+//         })
+//         .catch(err => {
+//             console.log("db error", err);
+//         });
+// });
 
 var diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -302,9 +292,26 @@ io.on("connection", socket => {
             console.log("users online:", data.rows);
         })
         .catch();
-
+    db.fetchMessages()
+        .then(data => {
+            console.log("chats in index:", data.rows);
+            socket.emit("chats", { data: data.rows.reverse() });
+        })
+        .catch(() => {
+            console.log("fetching doesnt work");
+        });
+    socket.on("newChatMessage", ([message, user]) => {
+        console.log("message in the back!", message, user);
+        db.addMessage(user, message)
+            .then(data => {
+                console.log("data");
+                // socket.emit("pushMessage", data);
+            })
+            .catch(err => {
+                console.log("db error", err);
+            });
+    });
     //part about new user joining
-    socket.emit("onlineUsers", {});
     socket.on("disconnect", () => {
         console.log("socket Disconnected, id:", socket.id);
         delete onlineUsers[socket.id];

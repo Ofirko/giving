@@ -35,14 +35,17 @@ export default class Uploader extends React.Component {
         return (
             <div>
                 <div id="bg" onClick={this.props.onClick} />
-                <div className="modal">
+                <div className="modal form">
                     <h1>Want to change your image? </h1>
                     <input
                         type="file"
                         accept="image/*"
                         name="file"
+                        id="file"
+                        className="inputfile"
                         onChange={this.handleFileChange}
                     />
+                    <label for="file">Choose a file</label>
                     <button onClick={this.uploadFile}> Upload! </button>
                 </div>
             </div>

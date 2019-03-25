@@ -1,63 +1,51 @@
-import * as io from 'socket.io-client';
-import {onlineUsers, userJoined, userLeft} from './actions';
+import * as io from "socket.io-client";
+import {
+    onlineUsers,
+    userJoined,
+    userLeft,
+    chats,
+    newMessage
+} from "./actions";
 let socket;
 
 export function getSocket(store) {
     if (!socket) {
         socket = io.connect();
-
-        socket.on('onlineUsers', data => {
-            store.dispatch(
-                onlineUsers(data);
-            );
-        });
-
-        socket.on('userJoined', data => {
-            store.dispatch(
-                userJoined(data);
-            );
-        });
-
-        socket.on('userLeft', data => {
-            store.dispatch(
-                userLeft(data);
-            );
-        });
     }
+    socket.on("onlineUsers", data => {
+        store.dispatch(onlineUsers(data));
+    });
+
+    socket.on("userJoined", data => {
+        store.dispatch(userJoined(data));
+    });
+
+    socket.on("userLeft", data => {
+        store.dispatch(userLeft(data));
+    });
+    socket.on("chats", data => {
+        console.log("in socket:", data);
+        store.dispatch(chats(data));
+    });
+    socket.on("pushMessage", data => {
+        console.log("message in socket:", data);
+        store.dispatch(newMessage(data));
+    });
 
     return socket;
 }
 
-
-
-
-
 //
-// 1. `chatMessages` — rendering 10 most recent chat messages when user navigates to `/chat` — **DO THIS FIRST.**
-//    - `server.js` — store the chat messages in one of two ways:
-//      1. build an array of chatMessages in the server, and whenever there's a new chat message, just `push` into that array
-//      2. build a whole new db table just for chats!
-//    - once we have an array of the 10 most recent chat messages…. `emit` it to the front!
+
 //    - in `socket.js` listen for the socket event that was just emitted, then `dispatch`. Then `action`, then `reducer`
-//    - Once reducer does its job, the chat messages array should now be in Redux! 
-//    - Then the `Chat` component needs to render them on screen.
 // 2. `newChatMessage` — what to do when a user posts a new chat message?
 //    - in `chat.js` — capture user input and emit it to the server using sockets
 //    - in `index.js` — listen for that socket message to come in
-//      - if using array approach — db query to get info about person who posted message, and push object into the chatMessages array that contains info about user who posted message + the message itself
 //      - if using table approach — `INSERT` into `chats` table, and do db query to get info about person who posted message. Then create an object that contains info about user + message they just posted
 //      - once we have that object, we want to make sure EVERYONE gets a copy of that object… `io.sockets.emit()`
 //    - listen for this event to come in in our `socket.js` file
 //    - from there… `dispatch`, `action`, `reducer`
 //      - if reducer does its job correctly… we should see the new message appear on screen!
-
-
-
-
-
-
-
-
 
 //
 // 1. Server

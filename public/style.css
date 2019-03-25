@@ -1,6 +1,17 @@
 * {
     font-family: futura;
     font-size: 16px;
+    color: #3f3c43;
+    background-color: #a5f0ec;
+}
+img {
+    background-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
 }
 
 .modal {
@@ -10,8 +21,8 @@
     left: 0;
     right: 0;
     margin: 20%;
-    background-color: white;
-    border: 2px solid black;
+    background-color: #fff6ed;
+    border-radius: 25px;
     overflow-y: auto;
 }
 
@@ -28,30 +39,32 @@
 
 #profpic {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 15px;
+    top: 15px;
     width: 50px;
     height: 50px;
     border-radius: 50px;
 }
 
-#logo {
+.logo {
     position: absolute;
-    left: 5px;
+    left: -5px;
     top: -10px;
     width: 100px;
     height: 100px;
+    background-color: transparent;
 }
 
 #header {
-    padding-bottom: 70px;
-    border-bottom: 1px solid black;
+    padding: 0;
+    padding-bottom: 80px;
+    background-color: #fff6ed;
 }
 
 .bigpic #profpic {
     position: relative;
     left: 20px;
-    top: 50px;
+    top: 40px;
     width: 200px;
     height: 200px;
     border-radius: 5px;
@@ -71,6 +84,69 @@
     height: 80px;
 }
 
+#welcomponent {
+    margin-top: 120px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff6ed;
+    width: 80%;
+    align-self: center;
+    border-radius: 25px;
+    justify-content: center;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+    -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+    -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+}
+
+.form input {
+    align-self: center;
+    width: 150px;
+    background-color: #fff6ed;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 100px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+
+label,
+button {
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+    display: flex;
+    background-color: #fff6ed;
+    align-self: center;
+    border-radius: 100px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+}
+.form h3 {
+    display: flex;
+    background-color: #fff6ed;
+    align-self: center;
+}
+.form label {
+    display: flex;
+    background-color: #fff6ed;
+    align-self: center;
+}
+.form h1 {
+    font-size: 24px;
+    background-color: #fff6ed;
+    align-self: center;
+}
+
+.form .link {
+    background-color: #fff6ed;
+    text-decoration: none;
+}
+
 .friends {
     position: relative;
     top: 70px;
@@ -79,4 +155,40 @@
 .friendpic {
     width: 100px;
     height: 100px;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+textarea {
+    resize: none;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+#friendbox button {
+    display: relative;
+    top: -58px;
+    left: -5px;
+    width: 250px;
+    height: 50px;
+    border-radius: 0px 0px 20px 20px;
+    background-color: rgba(255, 246, 237, 0.8);
+}
+
+#friendbox img {
+    height: 250px;
+    width: 250px;
+    border-radius: 20px;
 }
