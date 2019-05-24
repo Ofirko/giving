@@ -12,12 +12,12 @@ React.js, Redux, Node.js, PostgreSQL, Express.js, AWS, Google Maps API, HTML and
   
   When uploading an item, the user can add its location and is shown an icremental search based on the Google Maps API's quering feature, showing Berlin addresses first. 
   
-  <div align="center">
-  <img src="./public/assets/sort.gif">
-  </div>
   When looking for an item, the user can press a "Sort by Distance" button. 
   The user is then prompted with a request to know his location, built using GeoLocation, 
   and then the item component is re-populated, sorted by distance, with the distance shown to the user.
+  <div align="center">
+  <img src="./public/assets/sort.gif">
+  </div>
   
 ## Additional Features
 
