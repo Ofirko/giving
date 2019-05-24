@@ -2,7 +2,7 @@
     font-family: futura;
     font-size: 16px;
     color: #3f3c43;
-    background-color: #a5f0ec;
+    background-color: #fff6ed;
 }
 img {
     background-color: transparent;
@@ -22,8 +22,9 @@ body {
     right: 0;
     margin: 20%;
     background-color: #fff6ed;
-    border-radius: 25px;
+    border-radius: 10px;
     overflow-y: auto;
+    z-index: 10;
 }
 
 #bg {
@@ -40,25 +41,31 @@ body {
 #profpic {
     position: absolute;
     right: 15px;
-    top: 15px;
-    width: 50px;
-    height: 50px;
+    top: 9px;
+    width: 40px;
+    height: 40px;
     border-radius: 50px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+    -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+    -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+    padding: 2px;
+    background-color: turquoise;
+    z-index: 10;
 }
 
 .logo {
     position: absolute;
     left: -5px;
     top: -10px;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     background-color: transparent;
 }
 
 #header {
     padding: 0;
-    padding-bottom: 80px;
-    background-color: #fff6ed;
+    padding-bottom: 60px;
+    background-color: #528ba6;
 }
 
 .bigpic #profpic {
@@ -68,6 +75,7 @@ body {
     width: 200px;
     height: 200px;
     border-radius: 5px;
+    background-color: transparent;
 }
 
 #profname {
@@ -84,7 +92,7 @@ body {
     height: 80px;
 }
 
-#welcomponent {
+.welcomponent {
     margin-top: 120px;
     display: flex;
     align-content: center;
@@ -93,11 +101,12 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    background-color: #fff6ed;
+    background-color: #528ba6;
     width: 80%;
     align-self: center;
-    border-radius: 25px;
+    border-radius: 10px;
     justify-content: center;
+    align-self: center;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
     -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
     -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
@@ -125,25 +134,23 @@ button {
     border-style: solid;
     border-width: 1px;
     border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+    width: 140px;
 }
-.form h3 {
-    display: flex;
-    background-color: #fff6ed;
-    align-self: center;
-}
-.form label {
+.form h3,
+.form label,
+#subbutton {
     display: flex;
     background-color: #fff6ed;
     align-self: center;
 }
 .form h1 {
     font-size: 24px;
-    background-color: #fff6ed;
+    background-color: #528ba6;
     align-self: center;
 }
 
 .form .link {
-    background-color: #fff6ed;
+    background-color: #528ba6;
     text-decoration: none;
 }
 
@@ -165,10 +172,19 @@ button {
     position: absolute;
     z-index: -1;
 }
+
+#categories select,
+#categories option {
+    background-color: #fff6ed;
+    height: 40px;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px 5px 5px 0px;
+}
 textarea {
     resize: none;
     border-radius: 10px;
     padding: 5px 10px 5px 10px;
+    background-color: #fff6ed;
 }
 input:focus,
 select:focus,
@@ -191,4 +207,171 @@ button:focus {
     height: 250px;
     width: 250px;
     border-radius: 20px;
+}
+
+#searchbox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.itembox {
+    height: 200px;
+    width: 200px;
+    overflow: hidden;
+    margin: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.32);
+    -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.32);
+    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.32);
+}
+.itembox img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    -moz-transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.itembox h1 {
+    height: 60px;
+    width: 200px;
+    position: relative;
+    bottom: 60px;
+    padding-left: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 16px;
+}
+
+.itembox:hover img {
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+#modal img {
+    transition: none;
+}
+
+#modal:hover img {
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.modal p {
+    padding-left: 10px;
+    font-size: 32px;
+    background-color: rgba(255, 246, 237, 0.8);
+}
+
+.distance {
+    height: 20px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    position: relative;
+    top: -290px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.navlink {
+    padding-right: 40px;
+    text-decoration: none;
+    background-color: #528ba6;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.32);
+    /* content: " | ";
+    padding: 0 10px; */
+}
+
+.linkcontainer {
+    position: relative;
+    top: -40px;
+    left: 68%;
+    width: 300px;
+    background-color: #528ba6;
+}
+
+#postitem {
+    background-color: #528ba6;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+#postitem textarea {
+    width: 300px;
+    height: 100px;
+    align-self: center;
+}
+#postitem input {
+    width: 140px;
+}
+
+#postitem #categories {
+    background-color: #528ba6;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+}
+
+#categories select {
+    padding-left: 10px;
+}
+
+#itemodal {
+    margin-top: 8%;
+    margin-bottom: 4%;
+}
+
+#bioeditor {
+    width: 170px;
+}
+
+#uploader {
+    display: flex;
+    align-self: center;
+    justify: center;
+    margin: 0 auto;
+    margin-top: 10%;
+    bottom: auto;
+    height: 300px;
+}
+
+#keywords {
+    color: black;
+    display: flex;
+    border-radius: 5px 0px 0px 5px;
+    border: 1px solid black;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+    border-color: rgb(216, 216, 216);
+    height: 31px;
+    width: 160px;
+}
+
+#searchbar {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#searchbar #categories select {
+    display: inline-flex;
+    position: relative;
+    top: 4px;
+    right: 1px;
+    height: 35px;
+    border: 1px solid rgb(216, 216, 216);
+}
+
+#searchbar h1 {
+    padding-right: 20px;
 }
