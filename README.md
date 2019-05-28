@@ -4,6 +4,7 @@ A React.js based Social Network for giving away stuff you don't need in Berlin.
 
 ## Tech Stack
 React.js, Redux, Node.js, PostgreSQL, Express.js, AWS, Google Maps API, HTML and CSS.
+Using Babel for compiling and Jest for testing.
 
 
 ## Key Features
